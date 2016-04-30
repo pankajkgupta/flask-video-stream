@@ -23,10 +23,18 @@ def index():
     return render_template('index.html')
 
 
-def gen(camera):
+def gen_video(camera):
     """Video streaming generator function."""
     while True:
         frame = camera.get_frame()
+        if app.assoc is not None:
+            TODO: Send random prediction
+            #if app.assoc.hasUpdatedPrediction():
+            #    pass
+            #    # TODO: Push prediction to client
+            #if app.assoc.isQueueEmpty():
+            #    app.assoc.setCamImage(TODO)
+            #    app.assoc.process()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
@@ -34,7 +42,7 @@ def gen(camera):
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(Camera()),
+    return Response(gen_video(Camera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
