@@ -8,6 +8,9 @@ from camera import Camera
 # Raspberry Pi camera module (requires picamera package)
 # from camera_pi import Camera
 
+import cv2
+
+cap = cv2.VideoCapture(0)
 
 app = Flask(__name__)
 app.assoc = None
