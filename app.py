@@ -28,7 +28,7 @@ def gen_video(camera):
     while True:
         frame = camera.get_frame()
         if app.assoc is not None:
-            TODO: Send random prediction
+            # TODO: Send random prediction
             #if app.assoc.hasUpdatedPrediction():
             #    pass
             #    # TODO: Push prediction to client
