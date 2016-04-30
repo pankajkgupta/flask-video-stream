@@ -28,13 +28,13 @@ def gen_video(camera):
     while True:
         frame = camera.get_frame()
         if app.assoc is not None:
-            # TODO: Send random prediction
-            #if app.assoc.hasUpdatedPrediction():
-            #    pass
-            #    # TODO: Push prediction to client
-            #if app.assoc.isQueueEmpty():
-            #    app.assoc.setCamImage(TODO)
-            #    app.assoc.process()
+            if app.assoc.isQueueEmpty():
+                app.assoc.setCamImageByFileContents(frame) # Assumes rpyc server is run locally
+                app.assoc.process()
+            if app.assoc.hasUpdatedPrediction():
+                print 'Updated prediction: %s' % app.assoc.getThreatLevel()
+                #    # TODO: Push prediction to client
+                pass
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 

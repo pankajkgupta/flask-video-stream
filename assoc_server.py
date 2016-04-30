@@ -3,6 +3,8 @@
 import caffe
 import numpy as np
 import pickle
+import PIL.Image
+from cStringIO import StringIO
 
 # Instance of loaded model that can perform dreaming
 class AssocServer:
@@ -13,7 +15,7 @@ class AssocServer:
     channel_swap = (2, 1, 0)
     end_layer = 'fc8'
     gpu_idx = 0
-    is_dummy = False
+    is_dummy = True
 
     def __init__(self):
         self.locations = []
@@ -62,6 +64,16 @@ class AssocServer:
     def setCamImageSerialized(self, image_data_stream):
         # Set dream image from data stream
         self.setCamImage(pickle.loads(image_data_stream))
+
+    def setCamImageByLocalFilename(self, local_filename):
+        # Set dream image from a local filename
+        print 'local_filename = ', local_filename
+        self.setCamImage(np.float32(PIL.Image.open(local_filename)))
+
+    def setCamImageByFileContents(self, file_contents):
+        # Set dream image from a local filename
+        file_jpgdata = StringIO(file_contents)
+        self.setCamImage(np.float32(PIL.Image.open(file_jpgdata)))
 
     def hasUnprocessedImage(self):
         return self.has_unprocessed_image

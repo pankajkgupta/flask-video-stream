@@ -57,9 +57,14 @@ class AssocClient:
                         self.last_image = cmd[1]
                         serialized_image = pickle.dumps(self.last_image, protocol=0)
                         self.assoc_server.setCamImageSerialized(serialized_image)
+                    elif cmd[0] == 'setCamImageByLocalFilename':
+                        self.assoc_server.setCamImageByLocalFilename(cmd[1])
+                    elif cmd[0] == 'setCamImageByFileContents':
+                        self.assoc_server.setCamImageByFileContents(cmd[1])
                     elif cmd[0] == 'process':
                         self.assoc_server.processImage()
                         self.last_prediction = self.assoc_server.getPredictions()
+                        self.last_threat_level = self.assoc_server.getThreatLevel()
                         self.has_updated_prediction = True
                     self.commands.pop(0)
                     print 'Client: Command %s done' % cmd[0]
@@ -79,6 +84,14 @@ class AssocClient:
         self.commands.append(['setCamImage', img.copy()])
         self.thread_event.set()
 
+    def setCamImageByLocalFilename(self, img_fn):
+        self.commands.append(['setCamImageByLocalFilename', img_fn])
+        self.thread_event.set()
+
+    def setCamImageByFileContents(self, file_contents):
+        self.commands.append(['setCamImageByFileContents', file_contents])
+        self.thread_event.set()
+
     def process(self):
         self.commands.append(['process'])
         self.thread_event.set()
@@ -92,6 +105,10 @@ class AssocClient:
     def getPrediction(self):
         self.has_updated_prediction = False
         return self.last_prediction
+
+    def getThreatLevel(self):
+        self.has_updated_prediction = False
+        return self.last_threat_level
 
     def quit(self):
         self.done = True
