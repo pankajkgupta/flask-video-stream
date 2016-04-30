@@ -1,9 +1,18 @@
 <html>
   <head>
     <title>Video Streaming Demonstration</title>
+    <style type="text/css">
+      body{
+        font-family: Helvetica;
+      }
+    </style>
   </head>
   <body>
-    <h1>Video Streaming Demonstration</h1>
+    <h1>Alz<b>eye</b>mers</h1>
     <img src="{{ url_for('video_feed') }}">
+
+    <a href="javascript:recordAudio()">Record audio</a>
   </body>
+
+  <script src="/static/js/main.js"></script>
 </html>
