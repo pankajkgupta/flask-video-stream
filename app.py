@@ -17,7 +17,7 @@ app.assoc = None
 def index():
     # Ensure classifier init (delayed on server)
     if app.assoc is None:
-        app.assoc = AssocClient(extra_paths=['/home/sven2/python', '/home/sven2/s2caffe/python'])
+        app.assoc = AssocClient(extra_paths=['/home/sven2/python', '/home/sven2/caffe/python'])
         app.assoc.loadModel()
     """Video streaming home page."""
     return render_template('index.html')

@@ -15,7 +15,7 @@ class AssocServer:
     channel_swap = (2, 1, 0)
     end_layer = 'fc8'
     gpu_idx = 0
-    is_dummy = True
+    is_dummy = False
 
     def __init__(self):
         self.locations = []

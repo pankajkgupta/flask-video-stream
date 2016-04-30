@@ -131,7 +131,7 @@ if __name__ == "__main__":
     import time
 
     img = np.float32(PIL.Image.open('/home/sven2/Downloads/skunk1.jpg'))
-    assoc = AssocClient(extra_paths=['/home/sven2/python', '/home/sven2/s2caffe/python'])
+    assoc = AssocClient(extra_paths=['/home/sven2/python', '/home/sven2/caffe/python'])
     assoc.loadModel()
     for i in xrange(10):
         assoc.setCamImage(img)
