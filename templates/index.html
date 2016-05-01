@@ -10,8 +10,36 @@
       .container{
         margin: 0 auto;
         width: 700px;
-        background-color: #696969;
+        background-color: #ffffff;
         padding: 20px;
+      }
+
+      .container p {
+        margin-left: 2em;
+        margin-right: 2em;
+      }
+
+      /*.black{*/
+        /*background-color: #232323;*/
+      /*}*/
+
+      p.center{
+        /*margin-left: auto;*/
+        /*margin-right: auto;*/
+        /*width: 650px;*/
+        text-align: center;
+        /*padding: 20px;*/
+
+      }
+
+      .container p.center {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-top: -30px;
+        margin-left: -20;
+        margin-right: -20;
+        background-color: #232323;
+        color: #fff;
       }
     </style>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -25,13 +53,15 @@
     </script>
   </head>
   <body>
-    <!-- <h1>Alz<b>eye</b>mers</h1> -->
     <div class="container">
-      <img src="static/img/logo.png" /><br />
-      <img src="{{ url_for('video_feed') }}">
+      <p class="center">
+        <img src="{{ url_for('video_feed') }}">
+        <br />
+        <img src="static/img/logo.png" />
+        <p />
+        Threat Level: <div id="data">nothing received yet</div>
+      </p>
 
-      <!-- ThreatNum: {{ threatNum }} -->
-      <div id="data">nothing received yet</div>
       <a href="javascript:playSound()">Play Sound</a>
     </div>
 
