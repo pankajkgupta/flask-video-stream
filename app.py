@@ -41,8 +41,20 @@ def index():
     # for threat streaming
     if request.headers.get('accept') == 'text/event-stream':
         def events():
-            for i, c in enumerate(itertools.cycle('\|/-')):
-                yield "data: %s %d\n\n" % (c, i)
+            while True:
+                if app.assoc.hasUpdatedPrediction():
+                    print 'Updated prediction: %s' % app.assoc.getThreatLevel()
+                    # app.assoc.getThreadLevel: float between 0 and 1
+                    print 'Pred:\n%s'% app.assoc.getPrediction()
+                    #    # TODO: Push prediction to client
+                    threat_level = app.assoc.getThreatLevel()
+                    if threat_level > 0.1: # if greater than 0.1, push to client.
+                        # push to client
+                        print "THREAT THREAT THREAT THREAT!"
+                        threat_string = 'THREAT '
+                    else:
+                        threat_string = 'OK '
+                    yield "data: %s%f\n\n" % (threat_string, threat_level)
                 time.sleep(.1)  # an artificial delay
         return Response(events(), content_type='text/event-stream')
     # return redirect(url_for('templates', filename='index.html'))
@@ -61,20 +73,6 @@ def gen_video(camera):
             if app.assoc.isQueueEmpty():
                 app.assoc.setCamImageByFileContents(frame) # Assumes rpyc server is run locally
                 app.assoc.process()
-            if app.assoc.hasUpdatedPrediction():
-                print 'Updated prediction: %s' % app.assoc.getThreatLevel()
-                # app.assoc.getThreadLevel: float between 0 and 1
-                print 'Pred:\n%s'% app.assoc.getPrediction()
-                #    # TODO: Push prediction to client
-                if app.assoc.getThreatLevel() > 0.1: # if greater than 0.1, push to client.
-                    # push to client
-                    print "THREAT THREAT THREAT THREAT!"
-                    # threatNum1 = app.assoc.getThreatLevel()
-                    threatNum1 = 0.7
-                    yield render_template('index.html', threatNum = threatNum1)
-                    # TODO replace frame depending on the threat
-
-                pass
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
