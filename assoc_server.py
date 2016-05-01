@@ -14,7 +14,7 @@ class AssocServer:
     mean = [104.0, 116.0, 122.0]
     channel_swap = (2, 1, 0)
     end_layer = 'fc8'
-    gpu_idx = 0
+    gpu_idx = -1 # CPU
     is_dummy = False
 
     def __init__(self):

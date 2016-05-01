@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from flask import Flask, render_template, Response
 from assoc_client import AssocClient
+import time
 
 # emulated camera
 from camera import Camera
@@ -32,9 +33,11 @@ def gen_video(camera):
         frame = camera.get_frame()
         if app.assoc is not None:
             if app.assoc.isQueueEmpty():
+                print 'Tproc=', time.time()
                 app.assoc.setCamImageByFileContents(frame) # Assumes rpyc server is run locally
                 app.assoc.process()
             if app.assoc.hasUpdatedPrediction():
+                print 'Tpred=', time.time()
                 print 'Updated prediction: %s' % app.assoc.getThreatLevel()
                 #    # TODO: Push prediction to client
                 pass
