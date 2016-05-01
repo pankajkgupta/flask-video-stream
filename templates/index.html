@@ -3,6 +3,10 @@
     <script src="/static/js/main.js"></script>
     <title>Alz-eye-mers</title>
     <style type="text/css">
+      @keyframes example {
+        from {background-color: red;}
+        to {background-color: yellow;}
+      }
       body{
         background-color: #f5f5f5;
         font-family: Helvetica;
@@ -33,6 +37,18 @@
 
       }
 
+      .container p.header {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-top: -30px;
+        padding-left: 20px;
+        margin-right: -20;
+        background-color: #232323;
+        color: #ffffff;
+        font-size: 2em;
+      }
+
+
       .container p.center {
         padding-top: 10px;
         padding-bottom: 10px;
@@ -49,6 +65,14 @@
         var source = new EventSource('/');
         source.onmessage = function(e) {
           $("#data").text(e.data);
+          if (e.data.indexOf("THREAT") >= 0)
+          {
+            console.log("THREAT!");
+            $("#header").css("background-color","red");
+            $("#header").css("animation-name","example");
+            $("#header").css("animation-duration","4s");
+            $("#header").text("ALERT - Safety Monitor - ALERT")
+          }
         }
       }
 
@@ -66,6 +90,7 @@
   </head>
   <body>
     <div class="container">
+      <p class="header" id="header">Safety Monitor</p>
       <p class="center">
         <img src="{{ url_for('video_feed') }}">
         <br />
