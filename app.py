@@ -13,13 +13,13 @@ from camera import Camera
 
 app = Flask(__name__)
 app.assoc = None
-
+images_path = "/media/images/"
 
 @app.route('/')
 def index():
     # Ensure classifier init (delayed on server)
     if app.assoc is None:
-        app.assoc = AssocClient(extra_paths=['/home/sven2/python', '/home/sven2/s2caffe/python'])
+        app.assoc = AssocClient(extra_paths=['/home/sven2/python', '/home/sven2/caffe/python'])
         app.assoc.loadModel()
     """Video streaming home page."""
 
@@ -64,7 +64,7 @@ def gen_video(camera):
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen_video(Camera()),
+    return Response(gen_video(Camera(images_path)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
