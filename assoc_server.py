@@ -85,8 +85,9 @@ class AssocServer:
     def getPredictions(self):
         top_labels = self.predictions.argsort()[-5:][::-1]
         s = ''
-        for l in top_labels.tolist():
-            s += self.labels[int(l)] + '\n'
+        for al in top_labels.tolist():
+            l = int(al)
+            s += str(l) + '\t' + str(self.predictions[l]) + '\t' + self.labels[l] + '\n'
         return s
 
     def getThreatLevel(self):

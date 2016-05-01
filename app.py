@@ -35,7 +35,7 @@ def gen_video(camera):
             if app.assoc.hasUpdatedPrediction():
                 print 'Tpred=', time.time()
                 print 'Updated prediction: %s' % app.assoc.getThreatLevel()
-                print 'Pred: %s'% app.assoc.getPrediction()
+                print 'Pred:\n%s'% app.assoc.getPrediction()
                 #    # TODO: Push prediction to client
                 pass
         yield (b'--frame\r\n'
