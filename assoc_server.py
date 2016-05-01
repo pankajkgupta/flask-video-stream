@@ -17,7 +17,7 @@ class AssocServer:
     end_layer = 'fc8'
     gpu_idx = -1 # CPU
     is_dummy = False
-    threat_categories = [777, 623, 473, 596, 499, 677, 813, 644, 827, ]
+    threat_categories = [777, 623, 473, 596, 499, 677, 813, 827] # 644 matchstick
 
     def __init__(self):
         self.locations = []

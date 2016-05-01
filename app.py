@@ -12,7 +12,23 @@ from camera import Camera
 
 app = Flask(__name__)
 app.assoc = None
-images_path = "/media/images/"
+live_images_path = "/media/images/"
+recording_images_path = "/media/rec_images/images/"
+
+@app.route('/switch_to_live')
+def switch_to_live():
+    print 'SWITCH TO VIDEO'
+    if app.camera is not None:
+        app.camera.switch_to_video(live_images_path, False)
+    return Response('OK', content_type='text/plain')
+
+@app.route('/switch_to_recording')
+def switch_to_recording():
+    print 'SWITCH TO RECORDING'
+    if app.camera is not None:
+        app.camera.switch_to_video(recording_images_path, True)
+    return Response('OK', content_type='text/plain')
+
 
 @app.route('/')
 def index():
@@ -35,7 +51,9 @@ def index():
 
 def gen_video(camera):
     """Video streaming generator function."""
+    app.camera = camera
     while True:
+        time.sleep(0.25)
         frame = camera.get_frame()
         if frame is None:
             frame = ''
@@ -48,8 +66,9 @@ def gen_video(camera):
                 # app.assoc.getThreadLevel: float between 0 and 1
                 print 'Pred:\n%s'% app.assoc.getPrediction()
                 #    # TODO: Push prediction to client
-                if app.assoc.getThreatLevel() > 0.5: # if greater than 0.5, push to client.
+                if app.assoc.getThreatLevel() > 0.1: # if greater than 0.1, push to client.
                     # push to client
+                    print "THREAT THREAT THREAT THREAT!"
                     # threatNum1 = app.assoc.getThreatLevel()
                     threatNum1 = 0.7
                     yield render_template('index.html', threatNum = threatNum1)
@@ -65,7 +84,7 @@ def gen_video(camera):
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen_video(Camera(images_path)),
+    return Response(gen_video(Camera(live_images_path)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
