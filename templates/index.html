@@ -5,7 +5,7 @@
     <style type="text/css">
       @keyframes example {
         from {background-color: red;}
-        to {background-color: yellow;}
+        to {background-color: black;}
       }
       body{
         background-color: #f5f5f5;
@@ -65,12 +65,13 @@
         var source = new EventSource('/');
         source.onmessage = function(e) {
           $("#data").text(e.data);
-          if (e.data.indexOf("THREAT") >= 0)
+          if (e.data.indexOf("THREAT") >= -1)
           {
             console.log("THREAT!");
             $("#header").css("background-color","red");
             $("#header").css("animation-name","example");
-            $("#header").css("animation-duration","4s");
+            $("#header").css("animation-duration","1s");
+            $("#header").css("animation-iteration-count", "999999");
             $("#header").text("ALERT - Safety Monitor - ALERT")
           }
         }
