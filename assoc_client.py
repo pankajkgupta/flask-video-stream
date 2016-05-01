@@ -16,6 +16,8 @@ class AssocClient:
         self.sshctx = None
         self.processing_server = None
         self.handler = None
+        self.last_threat_level = 0.0
+        self.last_prediction = "Nothing"
         print 'Client: Connect to %s:%s' % (username, machine)
         self.is_dummy = not os.path.isfile('/home/sven2/python/ghack/alexnet.caffemodel')
         if not self.is_dummy:
