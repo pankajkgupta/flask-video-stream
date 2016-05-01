@@ -8,7 +8,8 @@ class Camera(object):
 	self.images_path = images_path
 
     def get_frame(self):
-	self.frames =  glob.glob(self.images_path + "/*jpg")
+	l_files = glob.glob("./*jpg") ; l_files.sort()
+	self.frames = l_files
 	if len(self.frames) == 0:
 		print "no frames found!!"
 	else:
