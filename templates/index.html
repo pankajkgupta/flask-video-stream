@@ -1,5 +1,6 @@
 <html>
   <head>
+    <script src="/static/js/main.js"></script>
     <title>Alz-eye-mers</title>
     <style type="text/css">
       body{
@@ -50,6 +51,17 @@
           $("#data").text(e.data);
         }
       }
+
+      function play_recording(){
+        // console.log("inside play recording");
+        $.post('/play_sound', {
+        }).done(function(){
+          console.log("played!");
+        }).fail(function(){
+          console.log("fail");
+        });
+          console.log("hello");
+      }
     </script>
   </head>
   <body>
@@ -62,12 +74,11 @@
         Threat Level: <div id="data">nothing received yet</div>
       </p>
 
-      <a href="javascript:playSound()">Play Sound</a>
+       <a href="javascript:play_recording()">Play Recording</a>
     </div>
 
   </body>
 
-  <script src="/static/js/main.js"></script>
 
 
 </html>

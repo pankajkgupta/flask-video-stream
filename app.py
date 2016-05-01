@@ -3,6 +3,9 @@ from flask import Flask, render_template, Response, redirect, request, url_for
 from assoc_client import AssocClient
 import itertools
 import time
+import os
+import subprocess as sb
+# from subprocess import call
 
 # emulated camera
 from camera import Camera
@@ -69,6 +72,20 @@ def video_feed():
     return Response(gen_video(Camera(images_path)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
+
+@app.route('/play_sound', methods=['POST'])
+def play_sound():
+    # command line command: omxplayer -o local example.mp3
+    print "in play recording"
+    # os.system("ssh -Y pi@192.168.1.202 'bash -s' < omxplayer -o local example.mp3")
+    aa = sb.Popen("""ssh -Y pi@192.168.1.202 'omxplayer -o local example.mp3'""", shell = True, stdout = sb.PIPE, stderr = sb.PIPE)
+    out, err = aa.communicate()
+    # subprocess.open("""ssh -Y pi@192.168.1.202 'omxplayer -o local example.mp3'""", shell=True)
+    # os.system('')
+    # call(['omxplayer -o local example.mp3'])
+    # os.system('omxplayer -o local example.mp3')
+    print "done"
+    return
 
 if __name__ == '__main__':
     # Start webserver
