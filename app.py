@@ -16,7 +16,7 @@ from camera import Camera
 app = Flask(__name__)
 app.assoc = None
 live_images_path = "/media/images/"
-recording_images_path = "/media/rec_images/images/"
+recording_images_path = "/home/sven2/vid/v1/"
 
 @app.route('/switch_to_live')
 def switch_to_live():
@@ -68,7 +68,7 @@ def gen_video(camera):
     """Video streaming generator function."""
     app.camera = camera
     while True:
-        time.sleep(1)
+        time.sleep(0.2)
         frame = camera.get_frame()
         if frame is None:
             frame = ''
