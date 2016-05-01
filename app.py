@@ -38,7 +38,9 @@ def gen_video(camera):
     """Video streaming generator function."""
     while True:
         frame = camera.get_frame()
-        if app.assoc is not None:
+        if frame is None:
+            frame = ''
+        elif app.assoc is not None:
             if app.assoc.isQueueEmpty():
                 app.assoc.setCamImageByFileContents(frame) # Assumes rpyc server is run locally
                 app.assoc.process()
