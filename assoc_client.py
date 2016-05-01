@@ -101,6 +101,7 @@ class AssocClient:
         self.thread_event.set()
 
     def hasUpdatedPrediction(self):
+        if self.is_dummy: return True
         return self.has_updated_prediction
 
     def isQueueEmpty(self):

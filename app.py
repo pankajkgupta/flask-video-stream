@@ -48,7 +48,7 @@ def index():
                     print 'Pred:\n%s'% app.assoc.getPrediction()
                     #    # TODO: Push prediction to client
                     threat_level = app.assoc.getThreatLevel()
-                    if threat_level > 0.1: # if greater than 0.1, push to client.
+                    if threat_level > 0.08: # if greater than threshold, push to client.
                         # push to client
                         print "THREAT THREAT THREAT THREAT!"
                         threat_string = 'THREAT '
@@ -65,7 +65,7 @@ def gen_video(camera):
     """Video streaming generator function."""
     app.camera = camera
     while True:
-        time.sleep(0.25)
+        time.sleep(1)
         frame = camera.get_frame()
         if frame is None:
             frame = ''
