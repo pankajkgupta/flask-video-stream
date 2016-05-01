@@ -68,7 +68,7 @@ def gen_video(camera):
     """Video streaming generator function."""
     app.camera = camera
     while True:
-        time.sleep(0.2)
+        time.sleep(0.3)
         frame = camera.get_frame()
         if frame is None:
             frame = ''

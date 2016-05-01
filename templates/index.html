@@ -65,7 +65,7 @@
         var source = new EventSource('/');
         source.onmessage = function(e) {
           $("#data").text(e.data);
-          if (e.data.indexOf("THREAT") >= -1)
+          if (e.data.indexOf("THREAT") >= 0)
           {
             console.log("THREAT!");
             $("#header").css("background-color","red");
