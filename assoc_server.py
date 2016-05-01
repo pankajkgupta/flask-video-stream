@@ -11,6 +11,7 @@ class AssocServer:
     # CONFIG
     model_proto =  '/home/sven2/python/ghack/alexnet.prototxt'
     model_weights = '/home/sven2/python/ghack/alexnet.caffemodel'
+    cat_file = '/home/sven2/python/ghack/synset_words.txt'
     mean = [104.0, 116.0, 122.0]
     channel_swap = (2, 1, 0)
     end_layer = 'fc8'
@@ -51,6 +52,8 @@ class AssocServer:
                                     channel_swap=AssocServer.channel_swap)
         shape = self.net.blobs['data'].shape
         self.net.blobs['data'].reshape(1, shape[1], shape[2], shape[3])
+        # Load category file
+        self.labels = open(AssocServer.cat_file, 'rt').read().splitlines()
         print('ASrv: Model load done.')
 
     # Processing interface
@@ -80,9 +83,14 @@ class AssocServer:
 
     # Get latest predictions
     def getPredictions(self):
-        return self.predictions.tolist()
+        top_labels = self.predictions.argsort()[-5:][::-1]
+        s = ''
+        for l in top_labels.tolist():
+            s += self.labels[int(l)] + '\n'
+        return s
 
     def getThreatLevel(self):
+
         return 0.5
 
     # Process image to predictions
@@ -103,7 +111,7 @@ class AssocServer:
             #self.net.blobs['data'].data[0,...] = self.cam_image
             #self.net.forward(end=AssocServer.end_layer)
             #self.predictions = self.net.blobs[AssocServer.end_layer].data[0,...].squeeze()
-            self.predictions = self.net.predict([self.cam_image])
+            self.predictions = self.net.predict([self.cam_image]).squeeze()
         self.has_unprocessed_image = False
 
 

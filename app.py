@@ -9,10 +9,6 @@ from camera import Camera
 # Raspberry Pi camera module (requires picamera package)
 # from camera_pi import Camera
 
-import cv2
-
-cap = cv2.VideoCapture(0)
-
 app = Flask(__name__)
 app.assoc = None
 
@@ -39,6 +35,7 @@ def gen_video(camera):
             if app.assoc.hasUpdatedPrediction():
                 print 'Tpred=', time.time()
                 print 'Updated prediction: %s' % app.assoc.getThreatLevel()
+                print 'Pred: %s'% app.assoc.getPrediction()
                 #    # TODO: Push prediction to client
                 pass
         yield (b'--frame\r\n'
