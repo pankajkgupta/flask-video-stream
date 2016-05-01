@@ -45,7 +45,7 @@ def gen_video(camera):
             if app.assoc.hasUpdatedPrediction():
                 print 'Updated prediction: %s' % app.assoc.getThreatLevel()
                 # app.assoc.getThreadLevel: float between 0 and 1
-
+                print 'Pred:\n%s'% app.assoc.getPrediction()
                 #    # TODO: Push prediction to client
                 if app.assoc.getThreatLevel() > 0.5: # if greater than 0.5, push to client.
                     # push to client

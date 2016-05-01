@@ -17,6 +17,7 @@ class AssocServer:
     end_layer = 'fc8'
     gpu_idx = -1 # CPU
     is_dummy = False
+    threat_categories = [777, 623, 473, 596, 499, 677]
 
     def __init__(self):
         self.locations = []
@@ -85,13 +86,16 @@ class AssocServer:
     def getPredictions(self):
         top_labels = self.predictions.argsort()[-5:][::-1]
         s = ''
-        for l in top_labels.tolist():
-            s += self.labels[int(l)] + '\n'
+        for al in top_labels.tolist():
+            l = int(al)
+            s += str(l) + '\t' + str(self.predictions[l]) + '\t' + self.labels[l] + '\n'
         return s
 
     def getThreatLevel(self):
-
-        return 0.5
+        threat_level = 0.0
+        for cat in AssocServer.threat_categories:
+            threat_level += self.predictions[cat]
+        return threat_level
 
     # Process image to predictions
 
