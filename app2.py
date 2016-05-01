@@ -15,7 +15,7 @@ cam1 = cv2.VideoCapture(0)
 #cam2 = context.get_camera(1)
 #cam2.Connect()
 #cam2.StartCapture()
-	
+
 @app.route('/')
 def index():
 	"""Playroom FlyCap video"""
@@ -23,23 +23,27 @@ def index():
 
 def get_frame(cam):
 	#cam.StartCapture()
-	frame = cam.GrabNumPyImage('bgr')
+	frame = cam.read()
 	#### OpenCV capture ######
 	#success, frame = self.cap.read()
 	#####################
 	# We are using Motion JPEG, but OpenCV defaults to capture raw images,
-        # so we must encode it into JPEG in order to correctly display the
-        # video stream.
-        ret, jpeg = cv2.imencode('.jpg', frame)
-        return jpeg.tostring()
-        #return self.frames[int(time()) % 3]
-	
+    # so we must encode it into JPEG in order to correctly display the
+    # video stream.
+	print "Frame", frame
+	# ret, jpeg = cv2.imencode('.jpg', frame)
+	# print "jpeg", jpeg
+	# print "ret", ret
+	return frame
+    #return self.frames[int(time()) % 3]
+
 def gen(cam):
     """Video streaming generator function."""
     while True:
-        frame = get_frame(cam)
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+		frame = get_frame(cam)
+		
+		yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + ''.join(frame) + b'\r\n')
 
 
 @app.route('/video_feed1')

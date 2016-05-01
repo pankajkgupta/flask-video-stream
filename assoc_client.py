@@ -16,33 +16,33 @@ class AssocClient:
         self.processing_server = None
         self.handler = None
         print 'Client: Connect to %s:%s' % (username, machine)
-        self.sshctx = SshMachine(machine, user=username, keyfile=ssh_key_fname)
-        self.server = DeployedServer(self.sshctx, python_executable=python_executable)
-        self.conn = self.server.classic_connect()
-        self.temp_dir = self.server.remote_machine.tempdir().__enter__()
-        if environ is not None:
-            for k, v in environ.iteritems():
-                if k in self.conn.modules.os.environ:
-                    self.conn.modules.os.environ[k] += ':' + v
-                else:
-                    self.conn.modules.os.environ[k] = v
-        if extra_paths is not None:
-            for p in extra_paths:
-                self.conn.modules.sys.path.append(p)
-        self.Assoc = self.conn.modules.ghack.assoc_server.AssocServer
-        self.assoc_server = self.Assoc()
-        self.last_prediction = None
+        # self.sshctx = SshMachine(machine, user=username, keyfile=ssh_key_fname)
+        # self.server = DeployedServer(self.sshctx, python_executable=python_executable)
+        # self.conn = self.server.classic_connect()
+        # self.temp_dir = self.server.remote_machine.tempdir().__enter__()
+        # if environ is not None:
+        #     for k, v in environ.iteritems():
+        #         if k in self.conn.modules.os.environ:
+        #             self.conn.modules.os.environ[k] += ':' + v
+        #         else:
+        #             self.conn.modules.os.environ[k] = v
+        # if extra_paths is not None:
+        #     for p in extra_paths:
+        #         self.conn.modules.sys.path.append(p)
+        # self.Assoc = self.conn.modules.ghack.assoc_server.AssocServer
+        # self.assoc_server = self.Assoc()
+        # self.last_prediction = None
 
-        self.conn.modules.sys.stdout = sys.stdout #open('/tmp/procout.txt', 'wt')
-        self.conn.modules.sys.stderr = sys.stdout #open('/tmp/procout.err', 'wt')
+        # self.conn.modules.sys.stdout = sys.stdout #open('/tmp/procout.txt', 'wt')
+        # self.conn.modules.sys.stderr = sys.stdout #open('/tmp/procout.err', 'wt')
         # Current state
         self.commands = []
         self.has_updated_prediction = False
         # Prepare asynchronous function calls
         self.thread_event = threading.Event()
-        self.done = False
-        self.thread = threading.Thread(target=self.workerThread)
-        self.thread.start()
+        # self.done = False
+        # self.thread = threading.Thread(target=self.workerThread)
+        # self.thread.start()
 
     def workerThread(self):
         # Executes dreaming communication in a background thread
