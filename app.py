@@ -11,7 +11,7 @@ from camera import Camera
 
 app = Flask(__name__)
 app.assoc = None
-
+images_path = "/media/images/"
 
 @app.route('/')
 def index():
@@ -45,7 +45,7 @@ def gen_video(camera):
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen_video(Camera()),
+    return Response(gen_video(Camera(images_path)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 

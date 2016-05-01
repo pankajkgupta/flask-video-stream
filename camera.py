@@ -1,12 +1,15 @@
 from time import time
-
+import glob
 
 class Camera(object):
-    """An emulated camera implementation that streams a repeated sequence of
-    files 1.jpg, 2.jpg and 3.jpg at a rate of one frame per second."""
+    """ takes a list of frames from a directory and 
 
-    def __init__(self):
-        self.frames = [open(f + '.jpg', 'rb').read() for f in ['1', '2', '3']]
+    def __init__(self, images_path):
+	self.images_path = images_path
 
     def get_frame(self):
-        return self.frames[int(time()) % 3]
+	self.frames =  glob.glob(self.images_path + "/*jpg")
+	if len(self.frames) == 0:
+		print "no frames found!!"
+	else:
+		self.frames[-1]
